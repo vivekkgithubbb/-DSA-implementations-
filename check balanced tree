@@ -1,0 +1,76 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+class node{
+	public:
+	int data;
+	node*right;
+	node*left;
+	node (int d){
+	data=d;
+	right=NULL;
+	left=NULL;
+	}
+};
+node*insertbst(node*root,int d){
+	if(root==NULL){
+		root=new node(d);
+		return root;
+	}
+	else if(root->data<=d){
+		root->left=insertbst(root->left,d);
+		return root;
+	}
+	else{
+		root->right=insertbst(root->right,d);
+		return root;
+	}
+}
+node*buildbst(){
+	node*root=NULL;
+	int d;
+	cin>>d;
+	while(d!=-1){
+	root=insertbst(root,d);
+		cin>>d;
+	}
+	return root;
+}
+class pa{
+	public:
+		int h;
+		bool b;
+		pa(){
+			h=0;
+			b=true;
+		}
+	};
+		pa isbalancedtree(node*root){
+			pa x;
+			if(root==NULL){
+				return x;
+			}
+			pa l=isbalancedtree(root->left);
+			pa r=isbalancedtree(root->right);
+		    x.h=max(l.h,r.h)+1;
+		    if(l.b==true and r.b==true and abs(l.h-r.h)<=1){
+		    	x.b=true;
+			}
+			else{
+				x.b=false;
+			}
+			return x;
+		}
+
+int main(){
+	node*root=buildbst();
+	pa l=isbalancedtree(root);
+	cout<<l.h<<endl;
+	if(l.b==true){
+		cout<<"yes balanced"<<endl;
+	}
+	else{
+		cout<<"not balanced"<<endl;
+	}
+}
+
