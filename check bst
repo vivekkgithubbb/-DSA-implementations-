@@ -1,0 +1,57 @@
+#include<iostream>
+using namespace std;
+class node{
+	public:
+	int data;
+	node*right;
+	node*left;
+	node(int d){
+		d=data;
+		right=NULL;
+		left=NULL;
+	}
+};
+node*insertbst(node*root,int d){
+	if(root==NULL){
+		root=new node(d);
+		return root;
+	}
+	else if(root->data<=d){
+		root->right=insertbst(root->left,d);
+		return root;
+	}
+	else{
+		root->left=insertbst(root->right,d);
+		return root;
+	}
+}
+node*buildbst(){
+	node*root=NULL;
+	int d;
+	cin>>d;
+	while(d!=-1){
+		cin>>d;
+		insertbst(root,d);
+	}
+	return root;
+}
+//input-->8 10 14 3 13 6 1 7 4 -1
+bool checkbst(node*root,int min=INT_MIN,int max=INT_MAX){
+	if(root==NULL){
+		return true;
+	}
+	if(root->data>=min and root->data<=max and checkbst(root->left,min,root->data) and checkbst(root->right,root->data+1,max)){
+		return true;
+	}
+	return false;
+}		
+
+int main(){
+	node*root=buildbst();
+	if(checkbst(root)==true){
+		cout<<"yes";
+	}
+	else{
+		cout<<"no";
+	}
+}
