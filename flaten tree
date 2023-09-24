@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* left;
+    node* right;
+    node(int d) {
+        data = d;
+        left = NULL;
+        right = NULL;
+    }
+};
+class ll{
+	public:
+    node*h;
+    node*t;
+    ll(){
+    	h=NULL;
+    	t=NULL;
+	}
+};
+ll bstintosll(node*root){
+	ll x;
+	if(root==NULL){
+		return x;
+	}
+	if(root->left==NULL and root->right==NULL){
+		x.h=root;
+		x.t=root;
+	}
+	else if(root->left!=NULL and root->right==NULL){
+		ll p=bstintosll(root->left);
+		p.t->right=root;
+		x.h=p.h;
+		x.t=root;
+	}
+	else if(root->right!=NULL and root->left==NULL){
+		ll q=bstintosll(root->right);
+		root->right=q.h;
+		x.h=root;
+		x.t=q.t;
+	}
+	else{
+		ll p=bstintosll(root->left);
+		ll q=bstintosll(root->right);
+		p.t->right=root;
+		root->right=q.h;
+		x.h=p.h;
+		x.t=q.t;
+	}
+	return x;
+}
+void printll(node*head){
+	while(head!=NULL){
+		cout<<head->data<<" ";
+		head=head->right;
+	}
+	cout<<endl;
+}
+int main(){
+	node* root = new node(4);
+    root->left = new node(2);
+    root->right = new node(6);
+    root->left->left = new node(1);
+    root->left->right = new node(3);
+    root->right->left = new node(5);
+    root->right->right = new node(7);
+	ll ans=bstintosll(root);
+	printll(ans.h);
+}
