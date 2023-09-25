@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+class node{
+	int data;
+	node*right;
+	node*left;
+	node(int d){
+		d=data;
+		right=NULL;
+		left=NULl;
+	}
+};
+node*deleteintbst(node*root,int key){
+	if(root==NULL){
+		return NULL;
+	}
+    if(key<root->data){
+		root->left=deleteinbst(root->left,key);
+		return root;
+	}
+	else if(key>root->data){
+		root->right=deleteinbst(root->right,key);
+	}
+	else if(root->right==NULL and root->left==NULl){
+		delete root;
+		root==NULL;
+		return root;
+	}
+	else {
+	if(root->left==NULL and root->right!=NULL) {
+	    node*temp=root->right;
+	    delete root;
+	    root=temp;
+	    return root;
+	}
+     if(root->right==NULL and root->left!=NULL){|
+	 node*temp=root->left;
+	 delete root;
+	 root=temp;
+	 return root;
+	}
+	else {
+		node*temp=root->right;
+		while(temp->left!=NULL){
+			temp=temp->left;
+			swap(root->data,temp->data);
+			root->right=deleteinbst(root->right,key);
+			return root;
+		}
+	}
+}
+}
+int main()
+{
+	node*root=buildbst();
+	int key;
+	cin>>key;
+   node*newroot=deleteinbst(root,key);
+	levelorderprint(root);	
+}
