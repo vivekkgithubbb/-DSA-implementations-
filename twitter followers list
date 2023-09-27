@@ -1,0 +1,35 @@
+#include<iostream>
+#include<list>
+#include<unordered_map>
+using namespace std;
+class graph{
+	unordered_map<string,list<string>>h;
+	public:
+		void addedge(string u,string v,bool birde=false){
+			h[u].push_back(v);
+			if(birde==true){
+				h[v].push_back(u);
+			}
+		}
+	void printgraph(){
+			for(auto x:h){
+				cout<<x.first<<":";
+				for(auto y:x.second){
+				cout<<y<<" ";
+			}
+			cout<<endl;
+		}
+	}
+};
+int main(){
+	graph g;
+	g.addedge("modi","trump",true);
+		g.addedge("putin","trump");
+			g.addedge("putin","pope");
+				g.addedge("prabhu","modi");
+					g.addedge("modi","yogi",true);
+						g.addedge("yogi","prabhu");
+							g.addedge("putin","modi");
+						g.addedge("pope","");
+						g.printgraph();
+}
