@@ -2,10 +2,11 @@
 #include<list>
 #include<unordered_map>
 using namespace std;
+template<typename t>
 class graph{
-	unordered_map<string,list<string>>h;
+	unordered_map<t,list<t>>h;
 	public:
-		void addedge(string u,string v,bool birde=false){
+		void addedge(t u,t v,bool birde=false){
 			h[u].push_back(v);
 			if(birde==true){
 				h[v].push_back(u);
@@ -22,7 +23,7 @@ class graph{
 	}
 };
 int main(){
-	graph g;
+	graph<string>g;
 	g.addedge("modi","trump",true);
 		g.addedge("putin","trump");
 			g.addedge("putin","pope");
