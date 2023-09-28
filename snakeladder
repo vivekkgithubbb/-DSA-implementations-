@@ -1,0 +1,88 @@
+#include<iostream>
+#include<list>
+#include<queue>
+#include<unordered_map>
+using namespace std;
+template<typename t>
+class graph{
+	int n;
+	list<t>*arr;
+	public:
+		graph(int N){
+			n=N;
+			arr=new list<t>[N];
+		}
+	 void addedge(t u, t v, bool birde = false) {
+        arr[u].push_back(v);
+        if (birde == true) {
+            arr[v].push_back(u);
+        }
+    }
+    void printgraph() {
+        for (int i = 0; i < n; i++) {
+            cout << i << "-->";
+            for (int x : arr[i]) {
+                cout << x << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    int srctodestd(t src, t dest) {
+        queue<t> q;
+        q.push(src);
+        unordered_map<t, bool> visited;
+        unordered_map<t, int> distance;
+        unordered_map<t, t> parent;
+        parent[src] = src;
+        visited[src] = true;
+        distance[src] = 0;
+        while (!q.empty()) {
+            t p = q.front();
+            q.pop();
+            for (auto ne : arr[p]) {
+                if (!visited[ne]) { // Check if the neighbor is not visited before
+                    q.push(ne);
+                    visited[ne] = true;
+                    distance[ne] = distance[p] + 1;
+                    parent[ne] = p;
+                }
+            }
+        }
+
+        // Path print
+        t temp = dest;
+        while (temp != src) {
+            cout << temp << "<--";
+            temp = parent[temp];
+        }
+        cout << temp << endl;
+        return distance[dest];
+    }
+};
+int main()
+{
+    graph<int>g(37);
+	int board[40]={0};
+	board[2]=13;
+	board[5]=2;
+	board[9]=18;
+	board[10]=11;
+	board[17]=-13;
+	board[20]=-14;
+	board[24]=-8;
+	board[25]=10;
+	board[32]=-2;
+	board[34]=-22;
+for (int i = 0; i <= 30; i++) {
+    for (int dice = 1; dice <= 6; dice++) {
+        int des = i + dice + board[i + dice];
+        if (des < 37) {
+            g.addedge(i, des);
+        }
+    }
+}
+
+	cout<<g.srctodestd(0,36)<<endl;
+	return 0;
+}
