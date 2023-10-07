@@ -47,8 +47,6 @@ void postorder(node*root){
 	cout<<root->data<<" ";
 }
 int main(){
-	node*right=NULL;
-	node*left=NULL;
     node*root=buildtree();
     cout<<"preorder is"<<endl;
     preorder(root);
