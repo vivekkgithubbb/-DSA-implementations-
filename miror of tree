@@ -1,0 +1,46 @@
+#include<iostream>
+using namespace std;
+class node{
+	public:
+	int data;
+	node*right;
+	node*left;
+	node(int d){
+		data=d;
+		right=NULL;
+		left=NULL;
+	}
+};
+node*buildtree(){
+	int d;
+	cin>>d;
+	if(d==-1){
+		return NULL;
+	}
+	node*root=new node(d);
+	root->left=buildtree();
+	root->right=buildtree();
+	return root;
+}
+void miroroftree(node*root){
+	if(root==NULL){
+		return;
+	}
+	swap(root->left,root->right);
+	miroroftree(root->left);
+    miroroftree(root->right);
+}
+void preorder(node*root){
+	if(root==NULL){
+		return;
+	}
+     cout<<root->data<<" ";
+     preorder(root->left);
+     preorder(root->right);
+}
+int main(){
+	node*root=buildtree();
+	miroroftree(root);
+	preorder(root);
+	cout<<endl;
+}
