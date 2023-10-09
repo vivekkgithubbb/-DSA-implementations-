@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+class node{
+	public:
+	int data;
+	node*right;
+	node*left;
+	node(int d){
+		data=d;
+		right=NULL;
+		left=NULL;
+	}
+};
+node*buildtree(){
+	int d;
+	cin>>d;
+	if(d==-1){
+		return NULL;
+	}
+	node*root=new node(d);
+	root->left=buildtree();
+	root->right=buildtree();
+	return root;
+}
+//8 10 1 -1 -1 6 4 -1 -1 7 -1 -1 3 -1 14 13 -1 -1 -1
+int hieght(node*root){
+	if(root==NULL){
+		return 0;
+	}
+	return max(hieght(root->left),hieght(root->right))+1;
+}
+class pa{
+	public:
+	int h;
+	int d;
+	pa(){
+		h=0;
+		d=0;
+	}
+};
+pa diaoptimized(node*root){
+	pa x;
+	if(root==NULL){
+		return x;
+	}
+	pa l=diaoptimized(root->left);
+	pa r=diaoptimized(root->right);
+	x.h=max(l.h,r.h)+1; 
+	int opt1=l.d;
+	int opt2=r.d;
+	int opt3=l.h+r.h;
+	x.d=max(opt1,max(opt2,opt3));
+	return x;
+}
+int main(){
+	node*root=buildtree();
+    pa ans=diaoptimized(root);
+	cout<<ans.d<<endl;
+	return 0;	
+}
