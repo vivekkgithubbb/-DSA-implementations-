@@ -1,60 +1,95 @@
 #include<iostream>
+#include <cstdlib>
 using namespace std;
 class node{
+	public:
 	int data;
 	node*right;
 	node*left;
 	node(int d){
-		d=data;
+		data=d;
 		right=NULL;
-		left=NULl;
+		left=NULL;
 	}
 };
-node*deleteintbst(node*root,int key){
+node*insertinbst(node*root,int d){
+	if(root==NULL){
+		root=new node(d);
+		return root;
+	}
+	if(root->data>d){
+	root->left=insertinbst(root->left,d);
+	return root;
+	}
+	else{
+		root->right=insertinbst(root->right,d);
+		return root;
+	}
+}
+node*buildbst(){
+	int d;
+	cin>>d;
+	node*root=NULL;
+	while(d!=-1){
+		root=insertinbst(root,d);
+		cin>>d;
+	}
+	return root;
+}
+node*preorder(node*root){
 	if(root==NULL){
 		return NULL;
 	}
-    if(key<root->data){
+	cout<<root->data<<" ";
+	preorder(root->left);
+	preorder(root->right);
+	return root;
+}
+node*deleteinbst(node*root,int key){
+	if(root==NULL){
+		return NULL;
+	}
+	if(root->data>key){
 		root->left=deleteinbst(root->left,key);
 		return root;
 	}
-	else if(key>root->data){
+	else if(root->data<key){
 		root->right=deleteinbst(root->right,key);
-	}
-	else if(root->right==NULL and root->left==NULl){
-		delete root;
-		root==NULL;
 		return root;
 	}
-	else {
-	if(root->left==NULL and root->right!=NULL) {
-	    node*temp=root->right;
-	    delete root;
-	    root=temp;
-	    return root;
-	}
-     if(root->right==NULL and root->left!=NULL){|
-	 node*temp=root->left;
-	 delete root;
-	 root=temp;
-	 return root;
-	}
-	else {
-		node*temp=root->right;
-		while(temp->left!=NULL){
-			temp=temp->left;
+	else{
+		if(root->left==NULL and root->right==NULL){
+			delete root;
+			root=NULL;
+			return root;
+		}
+		else if(root->right==NULL and root->left!=NULL){
+			node*temp=root->left;
+			delete root;
+			root=temp;
+			return root;
+		}
+		else if(root->left==NULL and root->right!=NULL){
+			node*temp=root->right;
+			delete root;
+			root=temp;
+			return root;
+		}
+		else {
+			node*temp=root->right;
+			while(temp->left!=NULL){
+				temp=temp->left;
+			}
 			swap(root->data,temp->data);
 			root->right=deleteinbst(root->right,key);
 			return root;
 		}
 	}
 }
-}
-int main()
-{
-	node*root=buildbst();
-	int key;
-	cin>>key;
-   node*newroot=deleteinbst(root,key);
-	levelorderprint(root);	
+int main(){
+node*root=buildbst();
+int key;
+cin>>key;
+deleteinbst(root,key);
+preorder(root);
 }
