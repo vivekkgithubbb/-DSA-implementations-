@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int data;
+    node*right;
+    node*left;
+    node(int d){
+        data=d;
+        right=NULL;
+        left=NULL;
+    }
+};
+node*insertbst(node*root,int d){
+    if(root==NULL){
+        root=new node(d);
+        return root;
+    }
+    if(root->data>d){
+        root->left=insertbst(root->left,d);
+        return root;
+    }
+    else{
+        root->right=insertbst(root->right,d);
+        return root;
+    }
+}
+node* buildbst(){
+    node*root=NULL;
+    int d;
+    cin>>d;
+    //node*root=new node(d);
+    while(d!=-1){
+         root=insertbst(root,d);
+         cin>>d;
+    }
+    return root;
+}
+void rightview(node*root,int cl,int &mlptn){
+    if(root==NULL){
+        return;
+    }    
+    if(cl>mlptn){
+    cout<<root->data<<" ";
+    mlptn++;
+}
+    rightview(root->right,cl+1,mlptn);
+    rightview(root->left,cl+1,mlptn);
+}
+
+int main(){
+    node*root=buildbst();
+    int k=0;
+    rightview(root,1,k);
+}
