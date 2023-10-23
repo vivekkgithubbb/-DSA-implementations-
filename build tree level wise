@@ -1,0 +1,68 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+class node{
+	public:
+	int data;
+	node*right;
+	node*left;
+	node(int d){
+		data=d;
+		right=NULL;
+		left=NULL;
+	}
+};
+void levelorderprint(node*root){
+	queue<node*>q;
+	q.push(root);
+	q.push(NULL);
+	while(!q.empty()){
+		node*x;
+		x=q.front();
+		q.pop();
+		if(x==NULL){
+			cout<<endl;
+			if(!q.empty()){
+			    q.push(NULL);
+			}
+		}
+		else{
+		cout<<x->data<<" ";
+		if(x->left!=NULL){
+			q.push(x->left);
+		}
+		if(x->right!=NULL){
+			q.push(x->right);
+		}
+		}
+	
+	}
+}
+node* buildlevelordertree(){
+   queue<node*>q;
+   cout<<"enter the data of the root"<<endl;
+   int d;
+   cin>>d;
+   node*root=new node(d);
+   q.push(root);
+   while(!q.empty()){
+   	node*x=q.front();
+   	q.pop();
+   	cout<<"enter the left and right data of"<<x->data;
+   	int lc,rc;
+   	cin>>lc,rc;
+   	if(lc!=-1){
+   		x->left=new node(lc);
+   	    q.push(x->left);
+	}
+	if(rc!=-1){
+		x->right=new node(rc);
+		q.push(x->right);
+	}
+   }
+   return root;
+}
+int main(){
+node*root=buildlevelordertree();
+levelorderprint(root);
+}
